@@ -4,6 +4,6 @@ import com.amazonaws.services.lambda.invoke.LambdaFunction
 
 interface CrawlService {
 
-    @LambdaFunction(functionName = "wecky-crawler")
+    @LambdaFunction(functionName = "awscodestar-wecky-crawl-lambda-GetHelloWorld-1CFXZAZA30GHG")
     fun crawlWebsite(website: Website)
 }
