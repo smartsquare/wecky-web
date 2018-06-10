@@ -1,4 +1,4 @@
-package de.smartsquare.wecky.weckyweb
+package de.smartsquare.wecky.weckyweb.domain
 
 import com.amazonaws.auth.AWSCredentials
 import com.amazonaws.auth.BasicAWSCredentials

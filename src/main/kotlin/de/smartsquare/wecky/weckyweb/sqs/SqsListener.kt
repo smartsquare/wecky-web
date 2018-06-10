@@ -1,4 +1,4 @@
-package de.smartsquare.wecky.weckyweb
+package de.smartsquare.wecky.weckyweb.sqs
 
 import org.slf4j.LoggerFactory
 import org.springframework.jms.annotation.JmsListener

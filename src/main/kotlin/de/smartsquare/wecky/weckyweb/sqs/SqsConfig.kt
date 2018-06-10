@@ -1,4 +1,4 @@
-package de.smartsquare.wecky.weckyweb
+package de.smartsquare.wecky.weckyweb.sqs
 
 import com.amazon.sqs.javamessaging.SQSConnectionFactory
 import com.amazonaws.auth.DefaultAWSCredentialsProviderChain

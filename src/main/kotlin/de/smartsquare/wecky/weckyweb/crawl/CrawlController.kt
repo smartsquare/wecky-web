@@ -1,5 +1,6 @@
-package de.smartsquare.wecky.weckyweb
+package de.smartsquare.wecky.weckyweb.crawl
 
+import de.smartsquare.wecky.weckyweb.domain.WebsiteRepository
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.RestController
 
