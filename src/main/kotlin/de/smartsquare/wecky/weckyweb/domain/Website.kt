@@ -12,5 +12,8 @@ data class Website(
         var id: String = "",
 
         @DynamoDBAttribute
-        var url: String = ""
+        var url: String = "",
+
+        @DynamoDBAttribute
+        var userEmail: String = ""
 )

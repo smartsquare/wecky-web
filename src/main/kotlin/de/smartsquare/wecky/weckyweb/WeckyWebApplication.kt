@@ -24,7 +24,7 @@ class WeckyWebApplication {
     fun init(amazonDynamoDB: AmazonDynamoDB, repository: WebsiteRepository) = CommandLineRunner {
         try {
             createTable(amazonDynamoDB)
-            repository.save(Website("HEISE", "https://www.heise.de"))
+            repository.save(Website("HEISE", "https://www.heise.de", "somebody@somewhere.com"))
 
             // fetch all websites
             log.info("Websites found with findAll():")
