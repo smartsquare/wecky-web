@@ -16,12 +16,12 @@ import org.springframework.test.context.TestPropertySource
 import org.springframework.test.context.junit.jupiter.SpringExtension
 
 @ExtendWith(SpringExtension::class)
-@SpringBootTest(classes = arrayOf(WeckyWebApplication::class))
-@TestPropertySource(properties =
-arrayOf("amazon.dynamodb.endpoint=http://localhost:8000/",
-        "amazon.aws.accesskey=test1",
-        "amazon.aws.secretkey=test231")
-)
+@SpringBootTest(classes = [WeckyWebApplication::class])
+@TestPropertySource(properties = [
+    "amazon.dynamodb.endpoint=http://localhost:8000/",
+    "amazon.aws.accesskey=test1",
+    "amazon.aws.secretkey=test231"
+])
 class WebsiteRepositoryIntegrationTest(
         @Autowired
         val amazonDynamoDB: AmazonDynamoDB,
