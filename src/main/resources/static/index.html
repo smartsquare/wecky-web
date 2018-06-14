@@ -33,17 +33,23 @@
     var app = new Vue({
         el: '#app',
         data: {
-            websites: [
-                {
-                    url: "https://www.heise.de"
-                }, {
-                    url: "https://www.github.com"
-                }
-            ],
+            websites: [],
             currentWebsiteURL: undefined
         },
         created: function () {
-            //TODO: select from dynamodb
+            let api = axios.create({
+                baseURL: 'http://127.0.0.1:8080/',
+                timeout: 1000
+            })
+
+            api.get('website')
+                .then(function (response) {
+                    console.group("Websites")
+                    console.log(response.data)
+                    console.groupEnd()
+
+                    this.app._data.websites = response.data
+                })
         },
         methods: {
             onAddWebsite: function () {
