@@ -1,21 +1,26 @@
 package de.smartsquare.wecky.weckyweb
 
-import com.amazonaws.regions.Regions
 import com.amazonaws.services.lambda.AWSLambdaClient
 import com.amazonaws.services.lambda.invoke.LambdaInvokerFactory
 import de.smartsquare.wecky.weckyweb.crawl.CrawlService
+import org.springframework.beans.factory.annotation.Value
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
-
 
 @Configuration
 class LambdaConfig {
 
+    @Value("\${cloud.aws.region.static}")
+    val region: String? = null
+
     @Bean
-    fun crawlService(): CrawlService {
-        val client = AWSLambdaClient.builder().withRegion(Regions.EU_CENTRAL_1).build()
-        return LambdaInvokerFactory.builder()
-                .lambdaClient(client)
-                .build(CrawlService::class.java)
-    }
+    fun crawlService(): CrawlService = LambdaInvokerFactory.builder()
+            .lambdaClient(AWSLambdaClient.builder().withRegion(region).build())
+            .build(CrawlService::class.java)
+
+    @Bean
+    fun notifyService(): NotifyService = LambdaInvokerFactory.builder()
+            .lambdaClient(AWSLambdaClient.builder().withRegion(region).build())
+            .build(NotifyService::class.java)
+
 }
