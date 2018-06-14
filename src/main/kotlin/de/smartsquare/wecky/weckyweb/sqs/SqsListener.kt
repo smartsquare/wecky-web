@@ -2,7 +2,7 @@ package de.smartsquare.wecky.weckyweb.sqs
 
 import com.fasterxml.jackson.core.type.TypeReference
 import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
-import de.smartsquare.wecky.weckyweb.NotifyService
+import de.smartsquare.wecky.weckyweb.notification.NotifyService
 import de.smartsquare.wecky.weckyweb.domain.Website
 import de.smartsquare.wecky.weckyweb.domain.WebsiteRepository
 import org.slf4j.LoggerFactory

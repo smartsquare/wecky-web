@@ -1,4 +1,4 @@
-package de.smartsquare.wecky.weckyweb
+package de.smartsquare.wecky.weckyweb.notification
 
 import com.amazonaws.services.lambda.invoke.LambdaFunction
 import de.smartsquare.wecky.weckyweb.domain.Website

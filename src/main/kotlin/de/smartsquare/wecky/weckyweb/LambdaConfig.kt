@@ -3,6 +3,7 @@ package de.smartsquare.wecky.weckyweb
 import com.amazonaws.services.lambda.AWSLambdaClient
 import com.amazonaws.services.lambda.invoke.LambdaInvokerFactory
 import de.smartsquare.wecky.weckyweb.crawl.CrawlService
+import de.smartsquare.wecky.weckyweb.notification.NotifyService
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
