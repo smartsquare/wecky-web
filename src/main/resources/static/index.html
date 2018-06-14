@@ -27,9 +27,15 @@
             </tr>
         </table>
     </div>
+    <div id="snackbar"></div>
 </div>
 
 <script>
+    let api = axios.create({
+        baseURL: 'http://127.0.0.1:8080/',
+        timeout: 1000
+    })
+
     var app = new Vue({
         el: '#app',
         data: {
@@ -37,11 +43,6 @@
             currentWebsiteURL: undefined
         },
         created: function () {
-            let api = axios.create({
-                baseURL: 'http://127.0.0.1:8080/',
-                timeout: 1000
-            })
-
             api.get('website')
                 .then(function (response) {
                     console.group("Websites")
@@ -56,12 +57,25 @@
                 if (this.currentWebsiteURL === undefined ||
                     this.alreadyExists(this.currentWebsiteURL)) return;
 
-                this.websites.push({
-                    url: this.currentWebsiteURL
-                })
-                this.currentWebsiteURL = undefined
-
-                //TODO: insert into dynamodb
+                //TODO: dynamic url
+                let websiteToAdd = {
+                    id: this.currentWebsiteURL.split(".")[1],
+                    url: this.currentWebsiteURL,
+                    userEmail: "d.dierkes@outlook.de"
+                };
+                console.group("Add website")
+                console.log(websiteToAdd)
+                console.groupEnd()
+                api.put('/website', websiteToAdd)
+                    .then(function () {
+                        this.websites.push({
+                            url: this.currentWebsiteURL
+                        })
+                        this.currentWebsiteURL = undefined
+                    }.bind(this))
+                    .catch(function (error) {
+                        this.showMessageToast(error)
+                    }.bind(this))
             },
             onDeleteWebsite: function (websiteURL) {
                 let indexOfItemToRemove = this.websites.findIndex(website => website.url === websiteURL
@@ -69,8 +83,14 @@
                 this.websites.pop(indexOfItemToRemove)
                 //TODO: delete from dynamodb
             }, alreadyExists: function (websiteURL) {
-                return this.websites.some(website => website.url === websiteURL
-                )
+                return this.websites.some(website => website.url === websiteURL)
+            }, showMessageToast(text) {
+                var x = document.getElementById("snackbar");
+                x.innerHTML = text
+                x.className = "show";
+                setTimeout(function () {
+                    x.className = x.className.replace("show", "");
+                }, 3000);
             }
         }
     })
@@ -131,6 +151,76 @@
 
     tr.spaceUnder > td {
         padding-bottom: 2em;
+    }
+
+    #snackbar {
+        visibility: hidden;
+        min-width: 250px;
+        margin-left: -125px;
+        background-color: RoyalBlue;
+        color: #fff;
+        text-align: center;
+        border-radius: 2px;
+        padding: 16px;
+        position: fixed;
+        z-index: 1;
+        left: 50%;
+        bottom: 30px;
+    }
+
+    /* Show the snackbar when clicking on a button (class added with JavaScript) */
+    #snackbar.show {
+        visibility: visible; /* Show the snackbar */
+
+        /* Add animation: Take 0.5 seconds to fade in and out the snackbar.
+        However, delay the fade out process for 2.5 seconds */
+        -webkit-animation: fadein 0.5s, fadeout 0.5s 2.5s;
+        animation: fadein 0.5s, fadeout 0.5s 2.5s;
+    }
+
+    /* Animations to fade the snackbar in and out */
+    @-webkit-keyframes fadein {
+        from {
+            bottom: 0;
+            opacity: 0;
+        }
+        to {
+            bottom: 30px;
+            opacity: 1;
+        }
+    }
+
+    @keyframes fadein {
+        from {
+            bottom: 0;
+            opacity: 0;
+        }
+        to {
+            bottom: 30px;
+            opacity: 1;
+        }
+    }
+
+    @-webkit-keyframes fadeout {
+        from {
+            bottom: 30px;
+            opacity: 1;
+        }
+        to {
+            bottom: 0;
+            opacity: 0;
+        }
+    }
+
+    @keyframes fadeout {
+        from {
+            bottom: 30px;
+            opacity: 1;
+        }
+        to {
+            bottom: 0;
+            opacity: 0;
+        }
     }
 </style>
 
