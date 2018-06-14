@@ -10,8 +10,7 @@ class CrawlController(val repository: WebsiteRepository, val crawlService: Crawl
     @GetMapping("/crawl")
     fun crawl() {
         val websites = repository.findAll()
-        websites.forEach({
-            crawlService.crawlWebsite(it)
-        })
+        websites.forEach(crawlService::crawlWebsite)
     }
+
 }
