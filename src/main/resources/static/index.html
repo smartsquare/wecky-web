@@ -16,16 +16,17 @@
                            placeholder="www.github.com">
                 </td>
             </tr>
-            <tr class="spaceUnder">
+            <tr class="headerPadding">
                 <td>
                     <input id="emailrecipient" type="text" title="URL" v-model="currentEmail"
                            placeholder="foo@bar.de"></td>
                 <td>
-                    <button id="website-add" v-on:click="onAddWebsite" :disabled="!currentEmail || !currentWebsiteURL" class="fa fa-plus"></button>
+                    <button id="website-add" v-on:click="onAddWebsite" :disabled="!currentEmail || !currentWebsiteURL"
+                            class="fa fa-plus"></button>
                 </td>
             </tr>
-            <tr v-for="website in websites">
-                <td>{{website.url}}</td>
+            <tr v-for="website in websites" class="rowPadding">
+                <td>{{website.url}} <br>{{website.userEmail}}</td>
                 <td>
                     <button v-on:click="onDeleteWebsite(website.url)" class="fa fa-trash"/>
                 </td>
@@ -75,7 +76,8 @@
                 api.put('/website', websiteToAdd)
                     .then(function () {
                         this.websites.push({
-                            url: this.currentWebsiteURL
+                            url: this.currentWebsiteURL,
+                            userEmail: this.currentEmail
                         })
                         this.currentWebsiteURL = ""
                         this.currentEmail = ""
@@ -162,7 +164,11 @@
         padding-left: 11%;
     }
 
-    tr.spaceUnder > td {
+    tr.rowPadding > td {
+        padding-bottom: 1vw;
+    }
+
+    tr.headerPadding > td {
         padding-bottom: 2em;
     }
 
