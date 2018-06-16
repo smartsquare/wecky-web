@@ -10,13 +10,18 @@
 <div id="app">
     <div align="center" id="websites">
         <table>
-            <tr class="spaceUnder">
+            <tr>
                 <td>
                     <input id="website-url" type="text" title="URL" v-model="currentWebsiteURL"
                            placeholder="www.github.com">
                 </td>
+            </tr>
+            <tr class="spaceUnder">
                 <td>
-                    <button id="website-add" v-on:click="onAddWebsite" class="fa fa-plus"></button>
+                    <input id="emailrecipient" type="text" title="URL" v-model="currentEmail"
+                           placeholder="foo@bar.de"></td>
+                <td>
+                    <button id="website-add" v-on:click="onAddWebsite" :disabled="!currentEmail || !currentWebsiteURL" class="fa fa-plus"></button>
                 </td>
             </tr>
             <tr v-for="website in websites">
@@ -40,7 +45,8 @@
         el: '#app',
         data: {
             websites: [],
-            currentWebsiteURL: undefined
+            currentWebsiteURL: "",
+            currentEmail: ""
         },
         created: function () {
             api.get('website')
@@ -54,14 +60,14 @@
         },
         methods: {
             onAddWebsite: function () {
-                if (this.currentWebsiteURL === undefined ||
+                if (!this.currentWebsiteURL ||
                     this.alreadyExists(this.currentWebsiteURL)) return;
 
                 //TODO: dynamic url
                 let websiteToAdd = {
                     id: this.currentWebsiteURL.split(".")[1],
                     url: this.currentWebsiteURL,
-                    userEmail: "d.dierkes@outlook.de"
+                    userEmail: this.currentEmail
                 };
                 console.group("Add website")
                 console.log(websiteToAdd)
@@ -71,7 +77,8 @@
                         this.websites.push({
                             url: this.currentWebsiteURL
                         })
-                        this.currentWebsiteURL = undefined
+                        this.currentWebsiteURL = ""
+                        this.currentEmail = ""
                     }.bind(this))
                     .catch(function (error) {
                         this.showMessageToast(error)
@@ -114,6 +121,10 @@
     button:hover {
         background-color: RoyalBlue;
         box-shadow: 0 4px 10px #888888;
+    }
+
+    button:disabled {
+        background-color: black;
     }
 
     input[type="text"] {
