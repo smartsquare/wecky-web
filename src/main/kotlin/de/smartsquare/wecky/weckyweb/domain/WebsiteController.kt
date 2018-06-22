@@ -1,15 +1,17 @@
 package de.smartsquare.wecky.weckyweb.domain
 
-import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.web.bind.annotation.*
-@CrossOrigin
-@RestController("website")
+
+@RestController
 class WebsiteController(private val websiteRepository: WebsiteRepository) {
 
-    @GetMapping
+    @GetMapping("website")
     fun getAllWebsites() : MutableIterable<Website> = websiteRepository.findAll()
 
-    @PutMapping
+    @PutMapping("website")
     fun addWebsite(@RequestBody website: Website) = websiteRepository.save(website)
+
+    @DeleteMapping("website/{domain}")
+    fun deleteWebsite(@PathVariable domain: String) = websiteRepository.deleteById(domain)
 
 }

@@ -1,4 +1,4 @@
-package de.smartsquare.wecky.weckyweb
+package de.smartsquare.wecky.weckyweb.config
 
 import com.amazonaws.services.lambda.AWSLambdaClient
 import com.amazonaws.services.lambda.invoke.LambdaInvokerFactory

@@ -40,7 +40,7 @@
     let api = axios.create({
         baseURL: 'http://127.0.0.1:8080/',
         timeout: 1000
-    })
+    });
 
     var app = new Vue({
         el: '#app',
@@ -52,54 +52,49 @@
         created: function () {
             api.get('website')
                 .then(function (response) {
-                    console.group("Websites")
-                    console.log(response.data)
-                    console.groupEnd()
-
                     this.app._data.websites = response.data
                 })
         },
         methods: {
             onAddWebsite: function () {
-                if (!this.currentWebsiteURL ||
-                    this.alreadyExists(this.currentWebsiteURL)) return;
+                if (!this.currentWebsiteURL || this.alreadyExists(this.currentWebsiteURL)) return;
 
-                //TODO: dynamic url
+                let domain = this.extractDomainFrom(this.currentWebsiteURL);
                 let websiteToAdd = {
-                    id: this.currentWebsiteURL.split(".")[1],
+                    id: domain,
                     url: this.currentWebsiteURL,
                     userEmail: this.currentEmail
                 };
-                console.group("Add website")
-                console.log(websiteToAdd)
-                console.groupEnd()
                 api.put('/website', websiteToAdd)
                     .then(function () {
                         this.websites.push({
                             url: this.currentWebsiteURL,
                             userEmail: this.currentEmail
-                        })
-                        this.currentWebsiteURL = ""
+                        });
+                        this.currentWebsiteURL = "";
                         this.currentEmail = ""
                     }.bind(this))
-                    .catch(function (error) {
-                        this.showMessageToast(error)
-                    }.bind(this))
+                    .catch(this.showMessageToast)
             },
             onDeleteWebsite: function (websiteURL) {
-                let indexOfItemToRemove = this.websites.findIndex(website => website.url === websiteURL
-                )
-                this.websites.pop(indexOfItemToRemove)
-                //TODO: delete from dynamodb
+                let domain = this.extractDomainFrom(websiteURL);
+                api.delete('/website/' + encodeURIComponent(domain))
+                    .then(function () {
+                        let indexOfItemToRemove = this.websites.findIndex(website => website.url === websiteURL);
+                        this.websites.pop(indexOfItemToRemove)
+                    }.bind(this))
+                    .catch(this.showMessageToast)
             }, alreadyExists: function (websiteURL) {
                 return this.websites.some(website => website.url === websiteURL)
-            }, showMessageToast(text) {
+            }, showMessageToast(error) {
                 var snackbar = document.getElementById("snackbar");
-                snackbar.innerHTML = text
+                snackbar.innerHTML = error;
                 snackbar.className = "show";
                 setTimeout(function () {
                     snackbar.className = snackbar.className.replace("show", "");
                 }, 3000);
+            }, extractDomainFrom(url) {
+                return url.split(".")[1]
             }
         }
     })
@@ -116,10 +111,6 @@
         padding: 12px 16px; /* Some padding */
         font-size: 16px; /* Set a font size */
         cursor: pointer;
-    }
-
-    #form {
-        padding-left: auto;
     }
 
     button:hover {
