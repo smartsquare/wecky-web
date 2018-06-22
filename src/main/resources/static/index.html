@@ -94,11 +94,11 @@
             }, alreadyExists: function (websiteURL) {
                 return this.websites.some(website => website.url === websiteURL)
             }, showMessageToast(text) {
-                var x = document.getElementById("snackbar");
-                x.innerHTML = text
-                x.className = "show";
+                var snackbar = document.getElementById("snackbar");
+                snackbar.innerHTML = text
+                snackbar.className = "show";
                 setTimeout(function () {
-                    x.className = x.className.replace("show", "");
+                    snackbar.className = snackbar.className.replace("show", "");
                 }, 3000);
             }
         }
