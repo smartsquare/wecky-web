@@ -6,7 +6,7 @@ import de.smartsquare.wecky.weckyweb.domain.Website
 
 interface CrawlService {
 
-    @LambdaFunction(functionName = "awscodestar-wecky-crawl-lambda-GetHelloWorld-1CFXZAZA30GHG", invocationType = Event)
+    @LambdaFunction(functionName = "Wecky-CrawlWebsite", invocationType = Event)
     fun crawlWebsite(website: Website)
 
 }
