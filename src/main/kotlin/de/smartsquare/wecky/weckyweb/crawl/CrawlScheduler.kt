@@ -17,9 +17,8 @@ class CrawlScheduler(
     fun runCrawlers() {
         executor.schedule({
             val websites = repository.findAll()
-            websites.forEach({
-                crawlService.crawlWebsite(it)
-            })
+            websites.forEach(crawlService::crawlWebsite)
         }, 1, TimeUnit.HOURS)
     }
+
 }
