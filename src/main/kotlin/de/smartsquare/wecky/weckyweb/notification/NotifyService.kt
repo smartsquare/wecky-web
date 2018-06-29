@@ -1,10 +1,10 @@
 package de.smartsquare.wecky.weckyweb.notification
 
 import com.amazonaws.services.lambda.invoke.LambdaFunction
-import de.smartsquare.wecky.weckyweb.domain.Website
+import de.smartsquare.wecky.weckyweb.domain.WebsiteChange
 
 interface NotifyService {
 
-    @LambdaFunction(functionName = "awscodestar-wecky-notify-lambd-TriggerNotification-3LF7X6LQ10LP")
-    fun notifyUser(website: Website)
+    @LambdaFunction(functionName = "Wecky-NotifyUser")
+    fun notifyUser(websiteChange: WebsiteChange)
 }
