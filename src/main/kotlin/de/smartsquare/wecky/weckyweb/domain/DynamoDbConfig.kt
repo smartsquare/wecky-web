@@ -2,13 +2,13 @@ package de.smartsquare.wecky.weckyweb.domain
 
 import com.amazonaws.auth.AWSCredentials
 import com.amazonaws.auth.BasicAWSCredentials
+import com.amazonaws.client.builder.AwsClientBuilder
 import com.amazonaws.services.dynamodbv2.AmazonDynamoDB
 import com.amazonaws.services.dynamodbv2.AmazonDynamoDBClient
 import org.socialsignin.spring.data.dynamodb.repository.config.EnableDynamoDBRepositories
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
-import org.springframework.util.StringUtils
 
 
 @Configuration
@@ -24,15 +24,17 @@ class DynamoDbConfig {
     @Value("\${amazon.aws.secretkey}")
     val amazonAWSSecretKey: String? = null
 
+    @Value("\${cloud.aws.region.static}")
+    val amazonAWSRegion: String? = null
+
     @Bean
     fun amazonDynamoDB(): AmazonDynamoDB {
-        val amazonDynamoDB = AmazonDynamoDBClient(amazonAWSCredentials())
+        System.setProperty("aws.accessKeyId", amazonAWSAccessKey)
+        System.setProperty("aws.secretKey", amazonAWSSecretKey)
 
-        if (!StringUtils.isEmpty(amazonDynamoDBEndpoint)) {
-            amazonDynamoDB.setEndpoint(amazonDynamoDBEndpoint)
-        }
-
-        return amazonDynamoDB
+        return AmazonDynamoDBClient.builder()
+                .withEndpointConfiguration(AwsClientBuilder.EndpointConfiguration(amazonDynamoDBEndpoint, amazonAWSRegion))
+                .build()
     }
 
     @Bean
