@@ -24,10 +24,10 @@ class DynamoDbConfig {
     @Value("\${amazon.dynamodb.endpoint}")
     val amazonDynamoDBEndpoint: String? = null
 
-    @Value("\${amazon.aws.accesskey}")
+    @Value("\${aws.accessKeyId}")
     val amazonAWSAccessKey: String? = null
 
-    @Value("\${amazon.aws.secretkey}")
+    @Value("\${aws.secretkey}")
     val amazonAWSSecretKey: String? = null
 
     @Value("\${cloud.aws.region.static}")
