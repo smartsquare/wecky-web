@@ -35,7 +35,7 @@ class WeckyWebApplication {
         createTable(amazonDynamoDB, User::class.java)
         val userId = UUID.randomUUID().toString()
         userRepo.save(User(userId, "Success Simulator", "success@simulator.amazonses.com"))
-        websiteRepo.save(Website("HEISE", "https://www.heise.de", userId))
+        websiteRepo.save(Website("TIME", "https://time.is", userId))
 
         // fetch all users
         log.info("Users found with findAll():")

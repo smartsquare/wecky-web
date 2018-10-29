@@ -38,12 +38,12 @@ class DynamoDbConfig {
         System.setProperty("aws.accessKeyId", amazonAWSAccessKey)
         System.setProperty("aws.secretKey", amazonAWSSecretKey)
 
-        if (amazonDynamoDBEndpoint.isNullOrBlank()) {
+        return if (amazonDynamoDBEndpoint.isNullOrBlank()) {
             log.info("Using production DynamoDB endpoint [$amazonAWSRegion]")
-            return AmazonDynamoDBClient.builder().withRegion(amazonAWSRegion).build()
+            AmazonDynamoDBClient.builder().withRegion(amazonAWSRegion).build()
         } else {
             log.info("Using local dev DynamoDB endpoint [$amazonDynamoDBEndpoint] [$amazonAWSRegion]")
-            return AmazonDynamoDBClient.builder()
+            AmazonDynamoDBClient.builder()
                     .withEndpointConfiguration(AwsClientBuilder.EndpointConfiguration(amazonDynamoDBEndpoint, amazonAWSRegion))
                     .build()
         }
