@@ -6,6 +6,7 @@ import de.smartsquare.wecky.weckyweb.domain.Website
 
 interface CrawlService {
 
-    @LambdaFunction(functionName = "Wecky-CrawlWebsite", invocationType = InvocationType.Event)
+    // InvocationType.Event not supported by sam-cli; use RequestResponse instead!
+    @LambdaFunction(functionName = "CrawlWebsite", invocationType = InvocationType.Event)
     fun crawlWebsite(website: Website)
 }
